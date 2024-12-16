@@ -1,0 +1,45 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: donut
+  annotations:
+    'nothing': 'something'
+spec:
+  components:
+    - name: ui-donut
+      type: component
+      properties:
+        image: file:///Users/lheywood/Projects/Cosmonic/examples-wasi-virt/donut/build/ui_donut_s.wasm
+        config:
+          - name: public_config
+            properties:
+              config_route: '/_secret/.config.json'
+              spa_redirect: '/404.html'
+              PUBLIC_react_version: 'Do a thing'
+              PUBLIC_env: 'production'
+              PUBLIC_json: |
+                {
+                  "key": "value"
+                }
+      traits:
+        - type: spreadscaler
+          properties:
+            instances: 1
+    - name: http-server
+      type: capability
+      properties:
+        image: ghcr.io/wasmcloud/http-server:0.24.0
+      traits:
+        - type: link
+          properties:
+            namespace: wasi
+            package: http
+            interfaces:
+              - incoming-handler
+            source:
+              config:
+                - name: wasi-http-config
+                  properties:
+                    address: 127.0.0.1:8000
+            target:
+              name: ui-donut

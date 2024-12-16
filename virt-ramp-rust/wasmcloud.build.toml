@@ -1,0 +1,9 @@
+name = "http-static-assets"
+version = "0.1.0"
+language = "rust"
+type = "component"
+build = "build/p1"
+
+[component]
+wit_world = "serve"
+wasm_target = "wasm32-wasip1"

@@ -1,0 +1,17 @@
+[package]
+name = "http-static-assets"
+edition = "2021"
+version = "0.1.0"
+
+[workspace]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0.94"
+wasmcloud-component = "0.2.0"
+wit-bindgen = "0.36.0"
+
+[build-dependencies]
+wasi-virt = { git = "https://github.com/bytecodealliance/wasi-virt", version = "0.1.0" }
